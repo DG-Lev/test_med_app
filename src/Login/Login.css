@@ -1,0 +1,78 @@
+body {
+    font-family: Outfit, sans-serif;
+}
+
+.login-text1 {
+    text-align: center; /* Center-align the text */
+    margin-top: 20px; /* Add top margin for spacing */
+    font-size: 22px; /* Set font size for the text */
+}
+
+.login-text2 {
+    font-weight: 400;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+/* Styles for the main container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px; /* Set maximum width for the container */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 40px; /* Padding inside the container */
+    margin-top: 10%; /* Top margin of 10% */
+}
+/* Styles for form groups */
+.form-group {
+    margin-bottom: 20px; /* Bottom margin for spacing between form groups */
+}
+/* Styles for form group labels */
+.form-group label {
+    display: block; /* Make labels display as block elements */
+    margin-bottom: 5px; /* Bottom margin for spacing below labels */
+    font-weight: bold; /* Bold text for labels */
+}
+/* Styles for form controls */
+.form-control {
+    width: 100%; /* Width of form controls */
+    padding: 8px; /* Padding inside form controls */
+    font-size: 16px; /* Font size of form controls */
+    border: 1px solid #ccc; /* Border around form controls */
+    border-radius: 4px; /* Border radius for rounded corners */
+}
+/* Styles for button groups */
+.btn-group {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center-align buttons */
+    margin-top: .0001px; /* Top margin for spacing above button groups */
+    margin-bottom: 20px; /* Bottom margin for spacing below button groups */
+    margin-left: auto; /* Center-align button groups */
+    margin-right: auto; /* Center-align button groups */
+    max-width: 300px;
+    gap: 10px;
+}
+/* Styles for buttons */
+.btn {
+    padding: 10px 20px; /* Padding inside buttons */
+    font-size: 16px; /* Font size of buttons */
+    border: none; /* No border for buttons */
+    border-radius: 4px; /* Border radius for rounded corners on buttons */
+    cursor: pointer; /* Cursor style on hover for buttons */
+    width: 100%;
+}
+/* Styles for primary buttons */
+.btn-primary {
+    background-color: #007bff; /* Background color for primary buttons */
+    color: #fff; /* Text color for primary buttons */
+}
+/* Styles for danger (red) buttons */
+.btn-danger {
+    background-color: #dc3545; /* Background color for danger buttons */
+    color: #fff; /* Text color for danger buttons */
+}

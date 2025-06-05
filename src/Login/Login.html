@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="Login.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <!-- Main container div for the page content -->
+    <div class="container">
+      <!-- Login heading -->
+      <div class="login-text1">
+        <h2>Login</h2>
+      </div>
+      <!-- Additional login text with a link to Sign Up page -->
+      <div class="login-text2">
+        Are you a new member?
+        <span>
+          <a href="../Sign_Up/Sign_Up.html" style="color: #2190ff">
+            Sign Up Here
+          </a>
+        </span>
+      </div>
+      <br />
+      <!-- Login form -->
+      <form class="login-form">
+        <!-- Form group for email input -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="form-control"
+            placeholder="Enter your email"
+            aria-describedby="helpId"
+            required
+          />
+        </div>
+        <!-- Form group for password input -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control"
+            placeholder="Enter your password"
+            aria-describedby="helpId"
+            required
+          />
+        </div>
+        <!-- Button group for login and reset buttons -->
+        <div class="btn-group">
+          <button
+            type="submit"
+            class="btn btn-primary mb-2 mr-1 waves-effect waves-light"
+          >
+            Login
+          </button>
+          <button
+            type="reset"
+            class="btn btn-danger mb-2 waves-effect waves-light"
+          >
+            Reset
+          </button>
+        </div>
+        <br />
+        <!-- Additional login text for 'Forgot Password' option -->
+        <div class="login-text2">Forgot Password?</div>
+      </form>
+    </div>
+  </body>
+</html>
