@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 import logo from '../../stayhealthylogo.png';
 
@@ -8,31 +9,31 @@ const Navbar = () => {
       <div className="nav__logo">
         <img src={logo} alt="Logo" />
       </div>
-      <div className="nav__icon" onClick="{handleClick}">
+      <div className="nav__icon">
         <i className="fa fa-bars"></i>
       </div>
       <ul className="nav__links">
         <li className="link">
-          <a href="../Landing_Page/LandingPage.html">Home</a>
+          <Link to="/">Home</Link>
         </li>
         <li className="link">
-          <a href="#">Appointments</a>
+          <Link to="/appointments">Appointments</Link>
         </li>
         <li className="link">
-          <a href="#">Health Blog</a>
+          <Link to="/health-blog">Health Blog</Link>
         </li>
         <li className="link">
-          <a href="#">Reviews</a>
+          <Link to="/reviews">Reviews</Link>
         </li>
         <li className="link">
-          <a href="../Sign_Up//Sign_Up.html">
+          <Link to="/signup">
             <button className="btn1">Sign Up</button>
-          </a>
+          </Link>
         </li>
         <li className="link">
-          <a href="../Login/Login.html">
+          <Link to="/login">
             <button className="btn1">Login</button>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

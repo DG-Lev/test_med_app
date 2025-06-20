@@ -44,7 +44,10 @@ body {
 }
 /* Styles for the signup form section */
 .signup-form {
-    grid-column: 2 / 4; /* Span from second to fourth column */
+    grid-column: 1 / 4; /* Span from second to fourth column */
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 /* Styles for the overall signup container */
 .signup {
