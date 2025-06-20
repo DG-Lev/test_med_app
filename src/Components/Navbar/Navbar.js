@@ -6,7 +6,7 @@ import logo from '../../stayhealthylogo.png';
 const Navbar = () => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem("auth-token"));
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState(sessionStorage.getItem("name") || "");
 
     useEffect(() => {
         // Listen for storage changes (e.g., login from another tab)
@@ -73,17 +73,17 @@ const Navbar = () => {
                 <li className="link">
                     <Link to="/reviews">Reviews</Link>
                 </li>
+                {isLoggedIn && username && (
+                    <li className="link" style={{ marginRight: "10px", fontWeight: "bold" }}>
+                        {`Welcome, ${username}!`}
+                    </li>
+                )}
                 {isLoggedIn ? (
-                    <>
-                        <li className="link" style={{ marginRight: "10px", fontWeight: "bold" }}>
-                            {username && `Welcome, ${username}!`}
-                        </li>
-                        <li className="link">
-                            <button className="btn1" onClick={handleLogout}>
-                                Logout
-                            </button>
-                        </li>
-                    </>
+                    <li className="link">
+                        <button className="btn1" onClick={handleLogout}>
+                            Logout
+                        </button>
+                    </li>
                 ) : (
                     <>
                         <li className="link">

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
+import { API_URL } from '../../config';
 
 const Login = () => {
     const [form, setForm] = useState({
@@ -8,6 +9,13 @@ const Login = () => {
         password: ""
     });
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (sessionStorage.getItem("auth-token")) {
+            navigate("/");
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,17 +26,48 @@ const Login = () => {
         if (!form.email.trim()) newErrors.email = "Email is required";
         else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = "Email is invalid";
         if (!form.password) newErrors.password = "Password is required";
-        else if (form.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+        else if (form.password.length < 8) newErrors.password = "Password must be at least 8 characters";
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validate();
         setErrors(validationErrors);
         if (Object.keys(validationErrors).length === 0) {
-            // Submit form (e.g., send to API)
-            alert("Login successful!");
+            try {
+                const res = await fetch(`${API_URL}/api/auth/login`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: form.email,
+                        password: form.password,
+                    }),
+                });
+                const json = await res.json();
+                console.log("Login response:", json);
+                if (json.authtoken) {
+                    sessionStorage.setItem('auth-token', json.authtoken);
+                    sessionStorage.setItem('email', form.email);
+                    if (json.name) {
+                        sessionStorage.setItem('name', json.name);
+                    }
+                    navigate('/');
+                    window.location.reload();
+                } else {
+                    if (json.errors) {
+                        for (const error of json.errors) {
+                            alert(error.msg);
+                        }
+                    } else {
+                        alert(json.error || "Login failed.");
+                    }
+                }
+            } catch (err) {
+                alert("Network error. Please try again.");
+            }
         }
     };
 
