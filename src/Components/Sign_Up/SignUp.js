@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Sign_Up.css";
-
+import { API_URL } from '../../config';
 
 const SignUp = () => {
     const [form, setForm] = useState({
@@ -11,6 +11,8 @@ const SignUp = () => {
         password: ""
     });
     const [errors, setErrors] = useState({});
+    const [apiError, setApiError] = useState([]); // always use an array
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,27 +30,60 @@ const SignUp = () => {
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setApiError([]); // Clear previous API errors
         const validationErrors = validate();
         setErrors(validationErrors);
         if (Object.keys(validationErrors).length === 0) {
-            // Submit form (e.g., send to API)
-            alert("Sign up successful!");
+            // Submit form to API
+            try {
+                const response = await fetch(`${API_URL}/api/auth/register`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: form.name,
+                        email: form.email,
+                        password: form.password,
+                        phone: form.phone,
+                    }),
+                });
+
+                const json = await response.json();
+                console.log(json); 
+
+                if (json.authtoken) {
+                    sessionStorage.setItem("auth-token", json.authtoken);
+                    sessionStorage.setItem("name", form.name);
+                    sessionStorage.setItem("phone", form.phone);
+                    sessionStorage.setItem("email", form.email);
+                    navigate("/");
+                    window.location.reload();
+                } else if (Array.isArray(json.error)) {
+                    // If backend returns error as an array
+                    setApiError(json.error.map(e => e.msg));
+                } else if (json.errors && Array.isArray(json.errors)) {
+                    setApiError(json.errors.map(e => e.msg));
+                } else if (json.error) {
+                    setApiError([json.error]);
+                } else {
+                    setApiError(["Registration failed."]);
+                }
+            } catch (err) {
+                setApiError(["Network error. Please try again."]);
+            }
         }
     };
 
     return (
         <div className="container" style={{ marginTop: "5%" }}>
-            {/* Main container with margin-top */}
             <div className="signup-grid">
-                {/* Grid layout for sign-up form */}
                 <div className="signup-text">
-                    {/* Title for the sign-up form */}
                     <h1>Sign Up</h1>
                 </div>
                 <div className="signup-text1">
-                    {/* Text for existing members to log in */}
                     Already a member?
                     <span>
                         <Link to="/login" style={{ color: "#2190ff" }}>
@@ -57,13 +92,9 @@ const SignUp = () => {
                     </span>
                 </div>
                 <div className="signup-form">
-                    {/* Form for user sign-up */}
                     <form onSubmit={handleSubmit} noValidate>
-                        {/* Start of the form */}
                         <div className="form-group">
-                            {/* Form group for user's name */}
                             <label htmlFor="name">Name</label>
-                            {/* Label for name input field */}
                             <input
                                 type="text"
                                 name="name"
@@ -75,13 +106,10 @@ const SignUp = () => {
                                 value={form.name}
                                 onChange={handleChange}
                             />
-                            {/* Text input field for name */}
                             {errors.name && <div style={{ color: "red" }}>{errors.name}</div>}
                         </div>
                         <div className="form-group">
-                            {/* Form group for user's phone number */}
                             <label htmlFor="phone">Phone</label>
-                            {/* Label for phone input field */}
                             <input
                                 type="tel"
                                 name="phone"
@@ -93,13 +121,10 @@ const SignUp = () => {
                                 value={form.phone}
                                 onChange={handleChange}
                             />
-                            {/* Tel input field for phone number */}
                             {errors.phone && <div style={{ color: "red" }}>{errors.phone}</div>}
                         </div>
                         <div className="form-group">
-                            {/* Form group for user's email */}
                             <label htmlFor="email">Email</label>
-                            {/* Label for email input field */}
                             <input
                                 type="email"
                                 name="email"
@@ -111,13 +136,10 @@ const SignUp = () => {
                                 value={form.email}
                                 onChange={handleChange}
                             />
-                            {/* Email input field */}
                             {errors.email && <div style={{ color: "red" }}>{errors.email}</div>}
                         </div>
                         <div className="form-group">
-                            {/* Form group for user's password */}
                             <label htmlFor="password">Password</label>
-                            {/* Label for password input field */}
                             <input
                                 type="password"
                                 name="password"
@@ -129,32 +151,33 @@ const SignUp = () => {
                                 value={form.password}
                                 onChange={handleChange}
                             />
-                            {/* Password input field */}
                             {errors.password && <div style={{ color: "red" }}>{errors.password}</div>}
                         </div>
+                        {apiError.length > 0 && apiError.map((err, idx) => (
+                            <div key={idx} style={{ color: "red" }}>
+                                {typeof err === "string" ? err : err.msg}
+                            </div>
+                        ))}
                         <div className="btn-group">
-                            {/* Button group for form submission and reset */}
                             <button
                                 type="submit"
                                 className="btn btn-primary mb-2 mr-1 waves-effect waves-light"
                             >
                                 Submit
                             </button>
-                            {/* Submit button */}
                             <button
                                 type="reset"
                                 className="btn btn-danger mb-2 waves-effect waves-light"
                                 onClick={() => {
                                     setForm({ name: "", phone: "", email: "", password: "" });
                                     setErrors({});
+                                    setApiError([]);
                                 }}
                             >
                                 Reset
                             </button>
-                            {/* Reset button */}
                         </div>
                     </form>
-                    {/* End of the form */}
                 </div>
             </div>
         </div>
