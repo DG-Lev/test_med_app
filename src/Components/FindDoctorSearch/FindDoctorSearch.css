@@ -1,0 +1,93 @@
+.finddoctor-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+}
+
+.finddoctor-wrapper h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.doctor-main-image {
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 30px;
+}
+
+.doctor-search-box {
+    display: flex;
+    align-items: center;
+    width: 400px;
+    position: relative; /* <<< Fixes the absolute positioning inside */
+    height: auto;
+}
+
+.search-doctor-input-box {
+    height: 40px;
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #3b3a3a;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    outline: none;
+}
+
+.findiconimg {
+    height: 40px;
+    width: 40px;
+    background-color: #efefef;
+    border: 1px solid #3b3a3a;
+    border-left: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.findIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.search-doctor-input-results {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    border: 1px solid #555;
+    background-color: #fff;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none; /* instead of hidden attribute */
+}
+
+.search-doctor-input-results.show {
+    display: block;
+}
+
+.search-doctor-result-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-doctor-result-item:hover {
+    background-color: #f0f0f5;
+}
+
+.search-doctor-result-item > span:nth-of-type(1) {
+    padding: 6px;
+    background-color: #f0f0f5;
+    border-radius: 50%;
+}
