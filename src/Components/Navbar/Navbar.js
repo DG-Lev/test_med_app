@@ -85,7 +85,12 @@ const Navbar = () => {
                         </button>
                     </li>
                 ) : (
-                    <>
+                    <>      
+                        <li className="link">
+                            <Link to="instant-consultation">
+                                <button className="btn1">Book Consultation</button>
+                            </Link>
+                        </li>
                         <li className="link">
                             <Link to="/signup">
                                 <button className="btn1">Sign Up</button>
