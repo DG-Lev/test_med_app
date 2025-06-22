@@ -16,6 +16,8 @@ import Login from './Components/Login/Login';
 import InstantConsultation from './Components/InstantConsultationBooking/InstantConsultation';
 
 import FindDoctorSearch from './Components/FindDoctorSearch/FindDoctorSearch';
+
+// import DoctorCard from '/Components/DoctorCard/DoctorCard';
 // Function component for the main App
 function App() {
 
