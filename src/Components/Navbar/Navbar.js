@@ -88,6 +88,9 @@ const Navbar = () => {
                                 <Link to="/profile" className="profile-dropdown-item">
                                     Your Profile
                                 </Link>
+                                <Link to="/reports" className="profile-dropdown-item">
+                                    Your Reports
+                                </Link>
                             </div>
                         )}
                     </li>
