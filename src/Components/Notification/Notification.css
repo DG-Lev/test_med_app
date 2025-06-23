@@ -1,0 +1,38 @@
+.notification-banner {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #3498db;
+  color: #fff;
+  padding: 20px 32px;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  z-index: 1000;
+  min-width: 300px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notification-banner > div {
+  display: flex;
+  flex-direction: column; /* Ensure column layout */
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.notification-banner > div > div,
+.notification-banner > div > strong {
+  margin: 0;
+  white-space: nowrap; /* Prevent line breaks within each line */
+}
+
+.notification-banner button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  margin-left: 16px;
+  cursor: pointer;
+}

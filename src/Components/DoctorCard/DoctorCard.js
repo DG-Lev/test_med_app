@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './DoctorCard.css';
@@ -9,22 +9,34 @@ const DoctorCard = ({ name, speciality, experience, ratings }) => {
   const [showModal, setShowModal] = useState(false);
   const [appointments, setAppointments] = useState([]);
 
+  // Load appointments from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem(name);
+    if (stored) {
+      setAppointments([JSON.parse(stored)]);
+    }
+  }, [name]);
+
   const handleBooking = () => {
     setShowModal(true);
   };
 
   const handleCancel = (appointmentId) => {
-    const updatedAppointments = appointments.filter((appointment) => appointment.id !== appointmentId);
-    setAppointments(updatedAppointments);
+    setAppointments([]);
+    localStorage.removeItem(name);
+    localStorage.removeItem('doctorData');
+    window.dispatchEvent(new Event('force-notification-update'));
   };
 
   const handleFormSubmit = (appointmentData) => {
     const newAppointment = {
-      id: uuidv4(),
+      id: Date.now(), // or uuidv4()
       ...appointmentData,
     };
-    const updatedAppointments = [...appointments, newAppointment];
-    setAppointments(updatedAppointments);
+    setAppointments([newAppointment]);
+    localStorage.setItem(name, JSON.stringify(newAppointment));
+    localStorage.setItem('doctorData', JSON.stringify({ name, speciality, experience, ratings }));
+    window.dispatchEvent(new Event('force-notification-update'));
     setShowModal(false);
   };
 
