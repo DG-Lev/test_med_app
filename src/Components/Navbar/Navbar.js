@@ -7,7 +7,8 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem("auth-token"));
     const [username, setUsername] = useState(sessionStorage.getItem("name") || "");
-    const [menuOpen, setMenuOpen] = useState(false); // <-- add this
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [profileDropdown, setProfileDropdown] = useState(false);
 
     useEffect(() => {
         // Listen for storage changes (e.g., login from another tab)
@@ -75,8 +76,20 @@ const Navbar = () => {
                     <Link to="/reviews">Reviews</Link>
                 </li>
                 {isLoggedIn && username && (
-                    <li className="link" style={{ marginRight: "10px", fontWeight: "bold" }}>
+                    <li
+                        className="link profile-link"
+                        style={{ marginRight: "10px", fontWeight: "bold", position: "relative" }}
+                        onMouseEnter={() => setProfileDropdown(true)}
+                        onMouseLeave={() => setProfileDropdown(false)}
+                    >
                         {`Welcome, ${username}!`}
+                        {profileDropdown && (
+                            <div className="profile-dropdown">
+                                <Link to="/profile" className="profile-dropdown-item">
+                                    Your Profile
+                                </Link>
+                            </div>
+                        )}
                     </li>
                 )}
                 {isLoggedIn ? (
