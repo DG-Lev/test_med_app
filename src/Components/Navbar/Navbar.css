@@ -109,8 +109,9 @@ nav {
     .nav__links {
         display: none;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         gap: 0.5rem;
+        width: 100%;
     }
     .nav__links.active {
         display: flex;
@@ -118,15 +119,21 @@ nav {
         top: 100%;
         left: 0;
         width: 100%;
-        margin: auto;
         background-color: #fff;
         flex-direction: column;
-        align-items: center;
+        align-items: center; 
         padding: 1rem 0;
         border-radius: 0.5rem;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         z-index: 999;
         animation: slideDown 0.5s ease-in-out; 
+        margin: 0; 
+    }
+
+    .nav__links > li {
+        margin-left: 0 !important; 
+        display: flex;
+        justify-content: center;
     }
 }
 /* Keyframes for slide down animation */

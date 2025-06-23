@@ -7,6 +7,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem("auth-token"));
     const [username, setUsername] = useState(sessionStorage.getItem("name") || "");
+    const [menuOpen, setMenuOpen] = useState(false); // <-- add this
 
     useEffect(() => {
         // Listen for storage changes (e.g., login from another tab)
@@ -57,10 +58,10 @@ const Navbar = () => {
             <div className="nav__logo">
                 <img src={logo} alt="Logo" />
             </div>
-            <div className="nav__icon">
+            <div className="nav__icon" onClick={() => setMenuOpen(!menuOpen)}>
                 <i className="fa fa-bars"></i>
             </div>
-            <ul className="nav__links">
+            <ul className={`nav__links${menuOpen ? " active" : ""}`}>
                 <li className="link">
                     <Link to="/">Home</Link>
                 </li>
