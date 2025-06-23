@@ -36,3 +36,19 @@
   margin-left: 16px;
   cursor: pointer;
 }
+
+.notification-cancel-btn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 20px;
+  transition: background 0.2s;
+}
+.notification-cancel-btn:hover {
+  background: #c0392b;
+}

@@ -3,18 +3,29 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './DoctorCard.css';
 import AppointmentForm from '../AppointmentForm/AppointmentForm';
-import { v4 as uuidv4 } from 'uuid';
 
 const DoctorCard = ({ name, speciality, experience, ratings }) => {
   const [showModal, setShowModal] = useState(false);
   const [appointments, setAppointments] = useState([]);
 
-  // Load appointments from localStorage on mount
+  // Load appointments from localStorage on mount and on notification update
   useEffect(() => {
-    const stored = localStorage.getItem(name);
-    if (stored) {
-      setAppointments([JSON.parse(stored)]);
-    }
+    const loadAppointment = () => {
+      const stored = localStorage.getItem(name);
+      if (stored) {
+        const appt = JSON.parse(stored);
+        if (appt.status === "upcoming") {
+          setAppointments([appt]);
+        } else {
+          setAppointments([]);
+        }
+      } else {
+        setAppointments([]);
+      }
+    };
+    loadAppointment();
+    window.addEventListener('force-notification-update', loadAppointment);
+    return () => window.removeEventListener('force-notification-update', loadAppointment);
   }, [name]);
 
   const handleBooking = () => {
@@ -22,20 +33,37 @@ const DoctorCard = ({ name, speciality, experience, ratings }) => {
   };
 
   const handleCancel = (appointmentId) => {
+    const appointment = JSON.parse(localStorage.getItem(name));
+    if (appointment) {
+      const now = new Date();
+      const apptDate = new Date(appointment.appointmentDate);
+      if (apptDate < now) {
+        appointment.status = "completed";
+      } else {
+        appointment.status = "cancelled";
+      }
+      localStorage.setItem(name, JSON.stringify(appointment));
+    }
     setAppointments([]);
-    localStorage.removeItem(name);
-    localStorage.removeItem('doctorData');
     window.dispatchEvent(new Event('force-notification-update'));
   };
 
   const handleFormSubmit = (appointmentData) => {
+    const userEmail = sessionStorage.getItem("email");
+    let nextSerial = Number(localStorage.getItem("nextSerialNumber")) || 1;
     const newAppointment = {
-      id: Date.now(), // or uuidv4()
+      id: Date.now(),
+      serialNumber: nextSerial,
       ...appointmentData,
+      userEmail,
+      doctorName: name, // <-- add this
+      doctorSpeciality: speciality, // <-- add this
+      status: "upcoming",
     };
     setAppointments([newAppointment]);
     localStorage.setItem(name, JSON.stringify(newAppointment));
     localStorage.setItem('doctorData', JSON.stringify({ name, speciality, experience, ratings }));
+    localStorage.setItem("nextSerialNumber", String(nextSerial + 1));
     window.dispatchEvent(new Event('force-notification-update'));
     setShowModal(false);
   };
@@ -61,7 +89,7 @@ const DoctorCard = ({ name, speciality, experience, ratings }) => {
         {!showModal && (
           <button
             className={`book-appointment-btn ${appointments.length > 0 ? 'cancel-appointment' : ''}`}
-            onClick={handleBooking}
+            onClick={appointments.length > 0 ? () => handleCancel(appointments[0].id) : handleBooking}
           >
             {appointments.length > 0 ? (
               <div>Cancel Appointment</div>

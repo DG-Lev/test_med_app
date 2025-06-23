@@ -47,11 +47,20 @@ const Notification = () => {
   const handleCancel = () => {
     // If doctor data is available, remove corresponding appointment data and doctor data from localStorage, update state, and notify other tabs/components
     if (doctorData) {
-      localStorage.removeItem(doctorData.name);
+      const appointment = JSON.parse(localStorage.getItem(doctorData.name));
+      if (appointment) {
+        const now = new Date();
+        const apptDate = new Date(appointment.appointmentDate);
+        if (apptDate < now) {
+          // Appointment is in the past, mark as completed
+          appointment.status = "completed";
+        } else {
+          // Appointment is in the future, mark as cancelled
+          appointment.status = "cancelled";
+        }
+        localStorage.setItem(doctorData.name, JSON.stringify(appointment));
+      }
       localStorage.removeItem('doctorData');
-      setAppointmentData(null);
-      setDoctorData(null);
-      // Notify other tabs/components
       window.dispatchEvent(new Event('force-notification-update'));
     }
   };
@@ -69,8 +78,14 @@ const Notification = () => {
         <div>On: <b>{appointmentData.appointmentDate || "N/A"}</b></div>
         <div>At: <b>{appointmentData.selectedSlot || "N/A"}</b></div>
       </div>
-      {/* Button to cancel the appointment */}
-      <button onClick={handleCancel} title="Cancel Appointment">&times;</button>
+      {/* Red Cancel button */}
+      <button
+        onClick={handleCancel}
+        title="Cancel Appointment"
+        className="notification-cancel-btn"
+      >
+        Cancel
+      </button>
     </div>
   );
 };
