@@ -1,0 +1,25 @@
+{
+  "short_name": "StayHealthy",
+  "name": "StayHealthy - Medical Consultation Platform",
+  "icons": [
+    {
+      "src": "icons8-medical-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "icons8-medical-16.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons8-medical-16.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#007bff",
+  "background_color": "#ffffff"
+}
